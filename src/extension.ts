@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
         const editor = vscode.window.activeTextEditor;
         
         if (!editor) {
-            vscode.window.showErrorMessage('Nemáš otevřený žádný soubor!');
+            vscode.window.showErrorMessage('No file open!');
             return;
         }
 
@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
         const baseCommand = runners[languageId];
 
         if (!baseCommand) {
-            vscode.window.showErrorMessage(`Jazyk ${languageId} zatím není podporován.`);
+            vscode.window.showErrorMessage(`Language ${languageId} is not supported yet.`);
             return;
         }
 
@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                 const isSuccess = !error;
                 const selectedFile = isSuccess ? getRandomItem(successImageFiles) : getRandomItem(failImageFiles);
-                const message = isSuccess ? 'Vše běží v klidu! Mei Mei schvaluje 😎' : 'Kód spadl! Mei Mei není spokojená 💀';
+                const message = isSuccess ? 'All is well! Mei Mei approves your code!' : 'Code failed! Mei Mei is not happy with your code!';
 
                 const onDiskUri = vscode.Uri.file(path.join(mediaPath, selectedFile));
                 const imageUri = panel.webview.asWebviewUri(onDiskUri);
