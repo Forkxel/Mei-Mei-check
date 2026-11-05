@@ -1,19 +1,12 @@
 import * as vscode from 'vscode';
 import { exec } from 'child_process';
+import * as path from 'path';
 
-const successImages = [
-    'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif',
-    'https://media.giphy.com/media/nxxQgBGvwxRji/giphy.gif'
-];
+const successImageFiles = ['happy1.png', 'happy2.png', 'happy3.png', 'happy4.png', 'happy5.png', 'happy6.png'];
+const failImageFiles = ['sad1.png', 'sad2.png', 'sad3.png'];
 
-const failImages = [
-    'https://media.giphy.com/media/TqiwHbFBaZ4ti/giphy.gif',
-    'https://media.giphy.com/media/14aUO0KQmWlc4/giphy.gif'
-];
-
-function getRandomImage(images: string[]): string {
-    const randomIndex = Math.floor(Math.random() * images.length);
-    return images[randomIndex];
+function getRandomItem(arr: string[]): string {
+    return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -48,25 +41,25 @@ export function activate(context: vscode.ExtensionContext) {
 
         document.save().then(() => {
             exec(command, (error) => {
+                const mediaPath = path.join(context.extensionPath, 'media');
+
                 const panel = vscode.window.createWebviewPanel(
                     'meiMeiCheckResult',
                     'Mei Mei Check',
                     vscode.ViewColumn.Beside,
-                    {}
+                    {
+                        localResourceRoots: [vscode.Uri.file(mediaPath)]
+                    }
                 );
 
-                let imageUrl = '';
-                let message = '';
+                const isSuccess = !error;
+                const selectedFile = isSuccess ? getRandomItem(successImageFiles) : getRandomItem(failImageFiles);
+                const message = isSuccess ? 'Vše běží v klidu! Mei Mei schvaluje 😎' : 'Kód spadl! Mei Mei není spokojená 💀';
 
-                if (error) {
-                    imageUrl = getRandomImage(failImages);
-                    message = 'Kód spadl! Mei Mei není spokojená 💀';
-                } else {
-                    imageUrl = getRandomImage(successImages);
-                    message = 'Vše běží v klidu! Mei Mei schvaluje 😎';
-                }
+                const onDiskUri = vscode.Uri.file(path.join(mediaPath, selectedFile));
+                const imageUri = panel.webview.asWebviewUri(onDiskUri);
 
-                panel.webview.html = getWebviewContent(imageUrl, message);
+                panel.webview.html = getWebviewContent(imageUri.toString(), message);
             });
         });
     });
@@ -74,7 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(imageUrl: string, message: string) {
+function getWebviewContent(imageSrc: string, message: string) {
     return `<!DOCTYPE html>
     <html lang="cs">
     <head>
@@ -86,7 +79,7 @@ function getWebviewContent(imageUrl: string, message: string) {
     </head>
     <body>
         <h1>${message}</h1>
-        <img src="${imageUrl}" alt="Mei Mei Result">
+        <img src="${imageSrc}" alt="Mei Mei Result">
     </body>
     </html>`;
 }
