@@ -16,17 +16,23 @@
     "commands": [
       {
         "command": "mei-mei-check.run",
-        "title": "Mei Mei Check: Run Code"
+        "title": "Mei Mei Check"
       }
     ],
-    "keybindings": [
+    "menus": {
+    "editor/title": [
       {
         "command": "mei-mei-check.run",
-        "key": "ctrl+alt+m",
-        "mac": "cmd+alt+m",
-        "when": "editorTextFocus"
+        "group": "navigation"
+      }
+    ],
+    "editor/context": [
+      {
+        "command": "mei-mei-check.run",
+        "group": "navigation"
       }
     ]
+  }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
