@@ -3,6 +3,7 @@
   "displayName": "Mei Mei check",
   "description": "This extension will check your code and give you picture of Mei Mei Leopard based on if it is correctly written.",
   "version": "0.0.1",
+  "publisher": "Pavel Halík",
   "engines": {
     "vscode": "^1.145.0"
   },
@@ -14,8 +15,16 @@
   "contributes": {
     "commands": [
       {
-        "command": "mei-mei-check.helloWorld",
-        "title": "Hello World"
+        "command": "mei-mei-check.run",
+        "title": "Mei Mei Check: Run Code"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mei-mei-check.run",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "editorTextFocus"
       }
     ]
   },
