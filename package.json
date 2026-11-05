@@ -4,6 +4,10 @@
   "description": "This extension will check your code and give you picture of Mei Mei Leopard based on if it is correctly written.",
   "version": "0.0.1",
   "publisher": "Pavel-Halik",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/Forkxel/Mei-Mei-check.git"
+},
   "engines": {
     "vscode": "^1.145.0"
   },
