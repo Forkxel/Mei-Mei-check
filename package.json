@@ -3,7 +3,7 @@
   "displayName": "Mei Mei check",
   "description": "This extension will check your code and give you picture of Mei Mei Leopard based on if it is correctly written.",
   "version": "0.0.1",
-  "publisher": "Pavel Halík",
+  "publisher": "Pavel-Halik",
   "engines": {
     "vscode": "^1.145.0"
   },
